@@ -27,7 +27,7 @@ export async function start(): Promise<void> {
 export function stop(): void {
   inject.uninjectAll();
 
-  forceUpdate(document.querySelector(`.${classes.guildClasses.guilds}`));
+  forceUpdate(document.querySelector(`.${classes.guildClasses?.guilds}`));
 }
 
 export async function patchGuildsNav(): Promise<void> {

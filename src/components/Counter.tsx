@@ -37,7 +37,7 @@ function getRelationshipCounts(): RelationshipCounts {
   return relationshipCounts;
 }
 
-const IntervalWrapper: IntervalWrapper = webpack.getBySource<ModuleExports & IntervalWrapper>(/"defaultProps",{disable:!1,pauseOnHover:!1}/)!;
+const IntervalWrapper: IntervalWrapper = await webpack.waitForModule<ModuleExports & IntervalWrapper>(webpack.filters.bySource(/"defaultProps",{disable:!1,pauseOnHover:!1}/))!;
 const useStateFromStoresMod = await webpack.waitForProps<ObjectExports>('useStateFromStores');
 const useStateFromStores: UseStateFromStores = useStateFromStoresMod.useStateFromStores! as UseStateFromStores;
 
