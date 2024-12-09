@@ -8,9 +8,9 @@ import { prefs } from '@index';
 import CounterStore from '@lib/store';
 import ErrorBoundary from './ErrorBoundary';
 
-const { React, fluxDispatcher, contextMenu } = common;
+const { React, fluxDispatcher, contextMenu, i18n } = common;
 const { ContextMenu } = components;
-const { Messages } = common.i18n;
+import t from "@i18n";
 
 const SliderControl = await webpack
   .waitForModule<typeof Slider>(webpack.filters.bySource('sliderContainer,'))
@@ -21,13 +21,14 @@ function CounterItems(): React.ReactElement[] {
 
   for (const key in Counters) {
     const counter = key as CounterType;
-    const counterName = Messages[Counters[counter].translationKey];
+    const counterName = i18n.intl.string([Counters[counter].translationKey]);
     const currentState = util.useSetting(prefs, counter);
 
     items.push(
       <ContextMenu.MenuCheckboxItem
         id={`show-${counter}`}
-        label={Messages.STATISTIC_COUNTER_SHOW_COUNTER.format({ counter: counterName })}
+        label={i18n.intl.formatToPlainString(t.STATISTIC_COUNTER_SHOW_COUNTER, { counter: counterName })
+      }
         checked={currentState.value}
         disabled={CounterStore.filteredCounters.length === 1 && CounterStore.filteredCounters.includes(counter)}
         action={() => {
@@ -58,12 +59,12 @@ function VisibilityItems(): React.ReactElement {
   const preserveLastCounter = util.useSetting(prefs, 'preserveLastCounter');
 
   return (
-    <ContextMenu.MenuItem id='visibility' label={Messages.STATISTIC_COUNTER_VISIBILITY}>
+    <ContextMenu.MenuItem id='visibility' label={i18n.intl.string(t.STATISTIC_COUNTER_VISIBILITY)}>
       {CounterItems()}
       <ContextMenu.MenuGroup>
         <ContextMenu.MenuCheckboxItem
           id='preserve-last-counter'
-          label={Messages.STATISTIC_COUNTER_PRESERVE_LAST_COUNTER}
+          label={i18n.intl.string(t.STATISTIC_COUNTER_PRESERVE_LAST_COUNTER)}
           checked={preserveLastCounter.value}
           action={() => {
             const newState = !preserveLastCounter.value;
@@ -84,10 +85,10 @@ function AutoRotationItems(): React.ReactElement {
   const autoRotationHoverPause = util.useSetting(prefs, 'autoRotationHoverPause');
 
   return (
-    <ContextMenu.MenuItem id='auto-rotation' label={Messages.STATISTIC_COUNTER_AUTO_ROTATION}>
+    <ContextMenu.MenuItem id='auto-rotation' label={i18n.intl.string(t.STATISTIC_COUNTER_AUTO_ROTATION)}>
       <ContextMenu.MenuCheckboxItem
         id='enabled'
-        label={Messages.USER_SETTINGS_MFA_ENABLED}
+        label={i18n.intl.string(i18n.t.USER_SETTINGS_MFA_ENABLED)}
         checked={autoRotation.value}
         action={() => autoRotation.onChange(!autoRotation.value)}
       />
@@ -95,21 +96,22 @@ function AutoRotationItems(): React.ReactElement {
         <ContextMenu.MenuGroup>
           <ContextMenu.MenuControlItem
             id='rotate-interval'
-            label={Messages.STATISTIC_COUNTER_ROTATION_INTERVAL}
+            label={i18n.intl.string(t.STATISTIC_COUNTER_ROTATION_INTERVAL)}
             control={(props: MenuControlItemProps, ref) => (
               <SliderControl
                 mini
                 ref={ref}
                 initialValue={DefaultSettings.autoRotationDelay}
                 minValue={5e3}
-                maxValue={36e5}
+                maxValue={36e5}                
                 renderValue={(value: number) => {
                   const seconds = value / 1000;
                   const minutes = value / 1000 / 60;
                   return value < 6e4
-                    ? Messages.DURATION_SECS.format({ secs: seconds.toFixed(0) })
-                    : Messages.DURATION_MINS.format({ mins: minutes.toFixed(0) });
+                    ? i18n.intl.formatToPlainString(i18n.t.DURATION_SECS, { secs: seconds.toFixed(0) })
+                    : i18n.intl.formatToPlainString(i18n.t.DURATION_MINS, { mins: minutes.toFixed(0) })
                 }}
+               
                 {...autoRotationDelay}
                 {...props}
               />
@@ -117,7 +119,7 @@ function AutoRotationItems(): React.ReactElement {
           />
           <ContextMenu.MenuCheckboxItem
             id='pause-on-hover'
-            label={Messages.STATISTIC_COUNTER_PAUSE_ON_HOVER}
+            label={i18n.intl.string(t.STATISTIC_COUNTER_PAUSE_ON_HOVER)}
             checked={autoRotationHoverPause.value}
             action={() => autoRotationHoverPause.onChange(!autoRotationHoverPause.value)}
           />

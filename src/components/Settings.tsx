@@ -7,14 +7,16 @@ import { prefs } from '@index';
 
 import CounterStore from '@lib/store';
 import Counter from './Counter';
+import t from "@i18n";
 
-const { Messages } = common.i18n;
+const { i18n } = common;
 const { React, fluxDispatcher } = common;
 const { Divider, Slider, SwitchItem, Text, Tooltip } = components;
 
 const states = new Map<string, boolean>();
 
-const { useDrag, useDrop } = await webpack.waitForProps<DragProvider>(['useDrag', 'useDrop']);
+const useDrag = webpack.getFunctionBySource<DragProvider["useDrag"]>(webpack.getBySource<DragProvider>("useDrag::spec.begin"), "collect")!
+const  useDrop  = webpack.getFunctionBySource<DragProvider["useDrop"]>(webpack.getBySource<DragProvider>(/\.options\);return\(/), "collect")!;
 
 function CounterItems(props: CounterItemsProps): React.ReactElement {
   return (
@@ -70,7 +72,7 @@ function CounterItem(props: CounterItemProps): React.ReactElement {
           </svg>
         </div>
         <Text lineClamp={1} variant='heading-sm/semibold'>
-          {Messages[Counters[props.counter].translationKey]}
+          {i18n.intl.string(i18n.t[Counters[props.counter].translationKey])}
         </Text>
       </div>
     </div>
@@ -82,7 +84,7 @@ function CounterSettings(): React.ReactElement[] {
 
   return Object.keys(Counters).map((key) => {
     const counter = key as CounterType;
-    const counterName = Messages[Counters[counter].translationKey];
+    const counterName = i18n.intl.string(i18n.t[Counters[counter].translationKey]);
     const useCounter = util.useSetting(prefs, counter);
 
     return (
@@ -106,7 +108,7 @@ function CounterSettings(): React.ReactElement[] {
 
           forceUpdate({});
         }}>
-        {Messages.STATISTIC_COUNTER_SHOW_COUNTER.format({ counter: counterName })}
+        {i18n.intl.formatToPlainString(t.STATISTIC_COUNTER_SHOW_COUNTER, { counter: counterName })}
       </SwitchItem>
     );
   });
@@ -144,7 +146,7 @@ const checkDefaultSettings = (): Record<'VIEW_ORDER' | 'VISIBILITY' | 'AUTO_ROTA
 
 const marginBottom15 = Object.freeze({ marginBottom: 15 });
 const ResetIcon = (props: { onClick: () => void }): React.ReactElement => (
-  <Tooltip text={Messages.RESET_TO_DEFAULT}>
+  <Tooltip text={i18n.intl.string(i18n.t.RESET_TO_DEFAULT)}>
     <svg className='statistic-counter-settings-revert-icon' width='16' height='16' viewBox='0 0 24 24' onClick={props.onClick}>
       <path fill='currentColor' d={Icons.REVERT} />
     </svg>
@@ -188,36 +190,36 @@ function Settings(): React.ReactElement {
   const handleSliderRender = (value: number): string => {
     const seconds = value / 1000;
     const minutes = value / 1000 / 60;
-    return value < 6e4 ? Messages.DURATION_SECS.format({ secs: seconds.toFixed(0) }) : Messages.DURATION_MINS.format({ mins: minutes.toFixed(0) });
+    return value < 6e4 ? i18n.intl.formatToPlainString(i18n.t.DURATION_SECS, { secs: seconds.toFixed(0) }) : i18n.intl.formatToPlainString(i18n.intl.DURATION_MINS, { mins: minutes.toFixed(0) });
   };
 
   return (
     <div>
       <Text.Eyebrow style={marginBottom15} color='header-secondary'>
-        {Messages.FORM_LABEL_VIDEO_PREVIEW}
+        {i18n.intl.string(i18n.t.FORM_LABEL_VIDEO_PREVIEW)}
       </Text.Eyebrow>
       {Preview()}
       <Text.Eyebrow style={marginBottom15} color='header-secondary'>
-        {Messages.STATISTIC_COUNTER_VIEW_ORDER}
+        {i18n.intl.string(t.STATISTIC_COUNTER_VIEW_ORDER)}
         {checkDefaultSettings().VIEW_ORDER && <ResetIcon onClick={handleViewOrderReset} />}
       </Text.Eyebrow>
       <CounterItems key={JSON.stringify(useViewOrder.value)} availableCounters={useViewOrder.value} onChange={useViewOrder.onChange} />
       <Text.Eyebrow style={marginBottom15} color='header-secondary'>
-        {Messages.STATISTIC_COUNTER_VISIBILITY}
+        {i18n.intl.string(t.STATISTIC_COUNTER_VISIBILITY)}
         {checkDefaultSettings().VISIBILITY && <ResetIcon onClick={handleVisibilityReset} />}
       </Text.Eyebrow>
       {CounterSettings()}
-      <SwitchItem {...usePreserveLastCounter}>{Messages.STATISTIC_COUNTER_PRESERVE_LAST_COUNTER}</SwitchItem>
+      <SwitchItem {...usePreserveLastCounter}>{i18n.intl.string(t.STATISTIC_COUNTER_PRESERVE_LAST_COUNTER)}</SwitchItem>
       <Text.Eyebrow style={marginBottom15} color='header-secondary'>
-        {Messages.STATISTIC_COUNTER_AUTO_ROTATION}
+        {i18n.intl.string(t.STATISTIC_COUNTER_AUTO_ROTATION)}
         {checkDefaultSettings().AUTO_ROTATION && <ResetIcon onClick={handleAutoRotationReset} />}
       </Text.Eyebrow>
-      <SwitchItem {...useAutoRotation}>{Messages.USER_SETTINGS_MFA_ENABLED}</SwitchItem>
+      <SwitchItem {...useAutoRotation}>{i18n.intl.string(i18n.t.USER_SETTINGS_MFA_ENABLED)}</SwitchItem>
 
       {useAutoRotation.value && (
         <>
           <Text.Eyebrow style={marginBottom15} color='header-secondary'>
-            {Messages.STATISTIC_COUNTER_ROTATION_INTERVAL}
+            {i18n.intl.string(t.STATISTIC_COUNTER_ROTATION_INTERVAL)}
           </Text.Eyebrow>
           <Slider
             className='statistic-counter-settings-slider'
@@ -232,7 +234,7 @@ function Settings(): React.ReactElement {
             onValueChange={handleRotationDelay}
           />
           <Divider style={marginBottom15} />
-          <SwitchItem {...useAutoRotationHoverPause}>{Messages.STATISTIC_COUNTER_PAUSE_ON_HOVER}</SwitchItem>
+          <SwitchItem {...useAutoRotationHoverPause}>{i18n.intl.string(t.STATISTIC_COUNTER_PAUSE_ON_HOVER)}</SwitchItem>
         </>
       )}
     </div>

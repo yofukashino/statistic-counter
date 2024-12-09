@@ -130,11 +130,11 @@ interface DragProvider {
   useDrag: (cb: () => {
     type: string;
     item:  { id: props.counter }
-  }) => void;
+  }) => [unknown, (...args: unknown[]) => unknown];
   useDrop: (cb: () => ({
     accept: string;
     drop: (item: { id: props.counter }) => void
-  })) => void;
+  })) => [unknown, (...args: unknown[]) => unknown];
 }
 interface CounterItemsProps {
   availableCounters: CounterType[];
@@ -142,7 +142,7 @@ interface CounterItemsProps {
 }
 
 interface MenuControlItemProps {
-  disabled: boolean;
+  disabled?: boolean;
   isFocused: boolean;
   onClose: () => void;
 }
