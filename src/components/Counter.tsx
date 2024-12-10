@@ -1,13 +1,5 @@
 import type { ModuleExports } from 'replugged/dist/types';
-import type {
-  CounterState,
-  GuildAvailabilityStore,
-  IntervalWrapper,
-  PresenceStore,
-  RelationshipCounts,
-  RelationshipStore,
-
-} from '@types';
+import type { CounterState, GuildAvailabilityStore, IntervalWrapper, PresenceStore, RelationshipCounts, RelationshipStore } from '@types';
 
 import CounterStore from '@lib/store';
 import ContextMenu from './ContextMenu';
@@ -17,7 +9,7 @@ import { common, webpack } from 'replugged';
 import { ActionTypes, Counters } from '@lib/constants';
 
 const FluxDispatcher = common.fluxDispatcher;
-const {useStateFromStores} = common.fluxHooks
+const { useStateFromStores } = common.fluxHooks;
 const { i18n } = common;
 
 import { Store } from 'replugged/dist/renderer/modules/common/flux';
@@ -39,8 +31,9 @@ function getRelationshipCounts(): RelationshipCounts {
   return relationshipCounts;
 }
 
-const IntervalWrapper: IntervalWrapper = await webpack.waitForModule<ModuleExports & IntervalWrapper>(webpack.filters.bySource(/"defaultProps",{disable:!1,pauseOnHover:!1}/))!;
-
+const IntervalWrapper: IntervalWrapper = await webpack.waitForModule<ModuleExports & IntervalWrapper>(
+  webpack.filters.bySource(/"defaultProps",{disable:!1,pauseOnHover:!1}/)
+)!;
 
 function Counter(props: { preview?: boolean }): React.ReactElement {
   const { activeCounter, nextCounter, counters, settings }: CounterState = useStateFromStores(
@@ -82,7 +75,7 @@ function Counter(props: { preview?: boolean }): React.ReactElement {
           disable={activeCounter === nextCounter || !settings.get('autoRotation', false)}
           pauseOnHover={Boolean(settings.get('autoRotationHoverPause', true))}>
           <span className={activeCounter !== nextCounter ? 'clickable' : ''} onClick={handleOnClick} onContextMenu={handleOnContextMenu}>
-            {i18n.intl.string(i18n.t[(Counters[activeCounter].translationKey)])} — {counters[Counters[activeCounter].storeKey]}
+            {i18n.intl.string(i18n.t[Counters[activeCounter].translationKey])} — {counters[Counters[activeCounter].storeKey]}
           </span>
         </IntervalWrapper>
       </ErrorBoundary>

@@ -1,4 +1,3 @@
-
 import { common, components, util, webpack } from 'replugged';
 
 import { CounterItemsProps, CounterType, DragProvider } from '@types';
@@ -7,7 +6,7 @@ import { prefs } from '@index';
 
 import CounterStore from '@lib/store';
 import Counter from './Counter';
-import t from "@i18n";
+import t from '@i18n';
 
 const { i18n } = common;
 const { React, fluxDispatcher } = common;
@@ -15,8 +14,8 @@ const { Divider, Slider, SwitchItem, Text, Tooltip } = components;
 
 const states = new Map<string, boolean>();
 
-const useDrag = webpack.getFunctionBySource<DragProvider["useDrag"]>(webpack.getBySource<DragProvider>("useDrag::spec.begin"), "collect")!
-const  useDrop  = webpack.getFunctionBySource<DragProvider["useDrop"]>(webpack.getBySource<DragProvider>(/\.options\);return\(/), "collect")!;
+const useDrag = webpack.getFunctionBySource<DragProvider['useDrag']>(webpack.getBySource<DragProvider>('useDrag::spec.begin'), 'collect')!;
+const useDrop = webpack.getFunctionBySource<DragProvider['useDrop']>(webpack.getBySource<DragProvider>(/\.options\);return\(/), 'collect')!;
 
 function CounterItems(props: CounterItemsProps): React.ReactElement {
   return (
@@ -37,7 +36,7 @@ interface CounterItemProps {
 function CounterItem(props: CounterItemProps): React.ReactElement {
   const [, drop] = useDrop(() => ({
     accept: 'STATISTIC_COUNTER_SETTINGS_COUNTER_ITEM',
-    drop: (item: {id: string}) => {
+    drop: (item: { id: string }) => {
       const draggedIndex = props.availableCounters.findIndex((coutner) => coutner === item.id);
       const droppedIndex = props.availableCounters.findIndex((coutner) => coutner === props.counter);
       props.onChange(
@@ -190,7 +189,9 @@ function Settings(): React.ReactElement {
   const handleSliderRender = (value: number): string => {
     const seconds = value / 1000;
     const minutes = value / 1000 / 60;
-    return value < 6e4 ? i18n.intl.formatToPlainString(i18n.t.DURATION_SECS, { secs: seconds.toFixed(0) }) : i18n.intl.formatToPlainString(i18n.intl.DURATION_MINS, { mins: minutes.toFixed(0) });
+    return value < 6e4
+      ? i18n.intl.formatToPlainString(i18n.t.DURATION_SECS, { secs: seconds.toFixed(0) })
+      : i18n.intl.formatToPlainString(i18n.intl.DURATION_MINS, { mins: minutes.toFixed(0) });
   };
 
   return (

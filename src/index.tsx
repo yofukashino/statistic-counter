@@ -19,7 +19,6 @@ export async function start(): Promise<void> {
   classes.guildClasses = await webpack.waitForProps<string, string>(['guilds', 'sidebar']);
 
   void i18n.addRepluggedStrings();
-
 }
 
 export function stop(): void {
@@ -29,5 +28,5 @@ export function stop(): void {
 }
 
 export function _getCounter(): JSX.Element {
-  return <Counter />
+  return <Counter />;
 }

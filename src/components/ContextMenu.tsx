@@ -10,7 +10,7 @@ import ErrorBoundary from './ErrorBoundary';
 
 const { React, fluxDispatcher, contextMenu, i18n } = common;
 const { ContextMenu } = components;
-import t from "@i18n";
+import t from '@i18n';
 
 const SliderControl = await webpack
   .waitForModule<typeof Slider>(webpack.filters.bySource('sliderContainer,'))
@@ -27,8 +27,7 @@ function CounterItems(): React.ReactElement[] {
     items.push(
       <ContextMenu.MenuCheckboxItem
         id={`show-${counter}`}
-        label={i18n.intl.formatToPlainString(t.STATISTIC_COUNTER_SHOW_COUNTER, { counter: counterName })
-      }
+        label={i18n.intl.formatToPlainString(t.STATISTIC_COUNTER_SHOW_COUNTER, { counter: counterName })}
         checked={currentState.value}
         disabled={CounterStore.filteredCounters.length === 1 && CounterStore.filteredCounters.includes(counter)}
         action={() => {
@@ -103,15 +102,14 @@ function AutoRotationItems(): React.ReactElement {
                 ref={ref}
                 initialValue={DefaultSettings.autoRotationDelay}
                 minValue={5e3}
-                maxValue={36e5}                
+                maxValue={36e5}
                 renderValue={(value: number) => {
                   const seconds = value / 1000;
                   const minutes = value / 1000 / 60;
                   return value < 6e4
                     ? i18n.intl.formatToPlainString(i18n.t.DURATION_SECS, { secs: seconds.toFixed(0) })
-                    : i18n.intl.formatToPlainString(i18n.t.DURATION_MINS, { mins: minutes.toFixed(0) })
+                    : i18n.intl.formatToPlainString(i18n.t.DURATION_MINS, { mins: minutes.toFixed(0) });
                 }}
-               
                 {...autoRotationDelay}
                 {...props}
               />

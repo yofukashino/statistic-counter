@@ -127,14 +127,18 @@ interface DragSourceItem {
 }
 
 interface DragProvider {
-  useDrag: (cb: () => {
-    type: string;
-    item:  { id: props.counter }
-  }) => [unknown, (...args: unknown[]) => unknown];
-  useDrop: (cb: () => ({
-    accept: string;
-    drop: (item: { id: props.counter }) => void
-  })) => [unknown, (...args: unknown[]) => unknown];
+  useDrag: (
+    cb: () => {
+      type: string;
+      item: { id: props.counter };
+    }
+  ) => [unknown, (...args: unknown[]) => unknown];
+  useDrop: (
+    cb: () => {
+      accept: string;
+      drop: (item: { id: props.counter }) => void;
+    }
+  ) => [unknown, (...args: unknown[]) => unknown];
 }
 interface CounterItemsProps {
   availableCounters: CounterType[];
