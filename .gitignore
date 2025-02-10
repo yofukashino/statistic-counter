@@ -106,3 +106,5 @@ dist
 /bundle
 
 /src/i18n/*.map
+
+/src/i18n/*d.ts
