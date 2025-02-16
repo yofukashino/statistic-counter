@@ -5,7 +5,7 @@ export default [
     replacements: [
       {
         match: /null,(\(0,\w+\.\w+\)\(\w+\.\w+,{isOnHubVerificationRoute)/,
-        replace: (_, suffix: string) => `null,replugged.plugins.getExports("xyz.griefmodz.StatisticCounter")._getCounter(),${suffix}`
+        replace: (_, suffix: string) => `null,replugged.plugins.getExports("xyz.griefmodz.StatisticCounter")?._getCounter?.(),${suffix}`
       }
     ]
   }
