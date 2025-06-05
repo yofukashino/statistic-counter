@@ -35,7 +35,8 @@
     "typescript": "^5.0.3"
   },
   "dependencies": {
-    "@discord/intl-loader-core": "^0.13.2",
+    "@discord/intl": "^0.20.1",
+    "@discord/intl-loader-core": "^0.20.1",
     "chalk": "^5.3.0",
     "esbuild": "^0.24.0"
   }

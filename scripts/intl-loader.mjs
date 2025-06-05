@@ -70,8 +70,8 @@ export default {
         }).getOutput();
 
         return {
-          contents: transformedOutput.replace(
-            /require\('@discord\/intl'\);/,
+          contents: transformedOutput.replaceAll(
+            /require\('@discord\/intl'\);/g,
             "await webpack.waitForProps('createLoader','IntlManager');",
           ),
           loader: "js",

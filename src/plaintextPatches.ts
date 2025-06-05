@@ -4,8 +4,8 @@ export default [
     find: 'guildsnav',
     replacements: [
       {
-        match: /null,(\(0,\w+\.\w+\)\(\w+\.\w+,{isOnHubVerificationRoute)/,
-        replace: (_, suffix: string) => `null,replugged.plugins.getExports("xyz.griefmodz.StatisticCounter")?._getCounter?.(),${suffix}`
+        match: /\(0,\w+\.\w+\)\(\w+\.\w+,{isOnHubVerificationRoute/,
+        replace: (suffix: string) => `replugged.plugins.getExports("xyz.griefmodz.StatisticCounter")?._getCounter?.(),${suffix}`
       }
     ]
   }
