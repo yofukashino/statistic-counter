@@ -21,7 +21,7 @@ function CounterItems(): React.ReactElement[] {
 
   for (const key in Counters) {
     const counter = key as CounterType;
-    const counterName = i18n.intl.string([Counters[counter].translationKey]);
+    const counterName = i18n.intl.string(i18n.t[Counters[counter].translationKey]);
     const currentState = util.useSetting(prefs, counter);
 
     items.push(
