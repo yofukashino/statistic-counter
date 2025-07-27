@@ -174,7 +174,7 @@ interface RelationshipStore extends RawModule, Store {
   getPendingCount(): number;
   getRelationshipCount(): number;
   getRelationshipType(userId: Snowflake): RelationshipTypes;
-  getRelationships(): Record<Snowflake, RelationshipTypes>;
+  getMutableRelationships(): Record<Snowflake, RelationshipTypes>;
   isBlocked(userId: Snowflake): boolean;
   isFriend(userId: Snowflake): boolean;
   __getLocalVars(): {

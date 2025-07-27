@@ -15,14 +15,14 @@ const { i18n } = common;
 import { Store } from 'replugged/dist/renderer/modules/common/flux';
 
 const RelationshipTypes = await webpack.waitForProps<Record<string, string | number>>('IMPLICIT');
-const RelationshipStore: RelationshipStore & Store = await webpack.waitForProps(['getRelationships']);
+const RelationshipStore: RelationshipStore & Store = await webpack.waitForProps(['getMutableRelationships']);
 const PresenceStore: PresenceStore & Store = await webpack.waitForProps(['isMobileOnline']);
 const GuildAvailabilityStore: GuildAvailabilityStore & Store = await webpack.waitForProps(['totalGuilds']);
 
 function getRelationshipCounts(): RelationshipCounts {
   const relationshipTypes = Object.keys(RelationshipTypes).filter((type) => isNaN(Number(type)));
   const relationshipCounts: RelationshipCounts = relationshipTypes.reduce((types, type) => ({ ...types, [type]: 0 }), {});
-  const relationships = RelationshipStore.getRelationships();
+  const relationships = RelationshipStore.getMutableRelationships();
 
   for (const type in relationships) {
     relationshipCounts[relationshipTypes[relationships[type]]]++;
