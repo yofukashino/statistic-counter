@@ -1,11 +1,5 @@
 import { defineMessages } from '@discord/intl';
 
-export const meta = {
-  translationsPath: './translations',
-  secret: false,
-  translate: true
-};
-
 export default defineMessages({
   STATISTIC_COUNTER_VIEW_ORDER: 'View Order',
   STATISTIC_COUNTER_VISIBILITY: 'Visibility',

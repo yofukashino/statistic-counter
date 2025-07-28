@@ -9,6 +9,7 @@ import {
   processDefinitionsFile,
   processTranslationsFile,
 } from "@discord/intl-loader-core";
+import esbuild from "esbuild";
 import { readFileSync } from "node:fs";
 import { dirname, posix, relative, resolve } from "node:path";
 
@@ -70,8 +71,8 @@ export default {
         }).getOutput();
 
         return {
-          contents: transformedOutput.replaceAll(
-            /require\('@discord\/intl'\);/g,
+          contents: transformedOutput.replace(
+            /require\('@discord\/intl'\);/,
             "await webpack.waitForProps('createLoader','IntlManager');",
           ),
           loader: "js",
