@@ -2,7 +2,7 @@ import type { CounterType, MenuControlItemProps } from '@types';
 import type { Slider } from 'replugged/dist/renderer/modules/components';
 
 import { ActionTypes, Counters, DefaultSettings } from '@lib/constants';
-import { common, components, util, webpack } from 'replugged';
+import { common, components, util} from 'replugged';
 import { prefs } from '@index';
 
 import CounterStore from '@lib/store';
@@ -12,9 +12,9 @@ const { React, fluxDispatcher, contextMenu, i18n } = common;
 const { ContextMenu } = components;
 import t from '@i18n';
 
-const SliderControl = await webpack
-  .waitForModule<typeof Slider>(webpack.filters.bySource('sliderContainer,'))
-  .then((mod) => Object.values(mod).find((mod) => mod?.render?.toString?.().includes('sliderContainer')));
+const SliderControl = Object.values(common.components).find((c) =>
+    c?.render?.toString?.()?.includes?.("slider"),
+  ) as React.FC<React.ComponentProps<typeof Slider> & {ref: unknown; renderValue: (e: number) => string}>;
 
 function CounterItems(): React.ReactElement[] {
   const items: React.ReactElement[] = [];

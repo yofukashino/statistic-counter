@@ -9,9 +9,8 @@ import {
   processDefinitionsFile,
   processTranslationsFile,
 } from "@discord/intl-loader-core";
-import esbuild from "esbuild";
 import { readFileSync } from "node:fs";
-import { dirname, posix, relative, resolve } from "node:path";
+import { dirname, posix, relative} from "node:path";
 
 const FILE_PATH_SEPARATOR_MATCH = /[\\\\\\/]/g;
 const INTL_MESSAGES_REGEXP = /\.messages\.(js|json|jsona)$/;
@@ -36,10 +35,9 @@ export default {
       const sourcePath = args.path;
       const source = readFileSync(sourcePath, "utf-8");
       const forceTranslation = args.suffix === "?forceTranslation";
-      const i18nPath = resolve("./i18n/");
 
       if (!hasInitializedAllDefinitions) {
-        processAllMessagesFiles(findAllMessagesFiles([i18nPath]));
+        processAllMessagesFiles(findAllMessagesFiles([process.cwd()]));
         hasInitializedAllDefinitions = true;
       }
 
@@ -67,12 +65,13 @@ export default {
           getTranslationImport: (importPath) => `import("${importPath}")`,
           debug: false,
           preGenerateBinds: false,
+          bindMode: "proxy",
           getPrelude: () => `import {webpack} from 'replugged';`,
         }).getOutput();
-
+         
         return {
           contents: transformedOutput.replace(
-            /require\('@discord\/intl'\);/,
+            /require\('@discord\/intl'\);/g,
             "await webpack.waitForProps('createLoader','IntlManager');",
           ),
           loader: "js",

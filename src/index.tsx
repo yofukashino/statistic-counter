@@ -1,6 +1,6 @@
 import type { CounterSettings, GuildClasses } from '@types';
 
-import { Injector, Logger, i18n, settings, webpack } from 'replugged';
+import { Injector, Logger,  settings, webpack } from 'replugged';
 import { DefaultSettings, PLUGIN_ID } from '@lib/constants';
 import { forceUpdate } from '@lib/util';
 
@@ -14,11 +14,12 @@ import './main.css';
 
 import { Counter, Settings } from '@components';
 export { Settings };
+import {messagesLoader} from "./i18n/en-US.messages"
 
 export async function start(): Promise<void> {
   classes.guildClasses = await webpack.waitForProps<string, string>(['guilds', 'sidebar']);
 
-  void i18n.addRepluggedStrings();
+ void messagesLoader._loadLocale(messagesLoader.defaultLocale);
 }
 
 export function stop(): void {
@@ -30,3 +31,5 @@ export function stop(): void {
 export function _getCounter(): JSX.Element {
   return <Counter />;
 }
+
+
